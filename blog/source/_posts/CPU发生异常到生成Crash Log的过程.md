@@ -46,11 +46,11 @@ int main(int argc, const char * argv[]) {
 上面这个程序中的非法内存访问将会用到上面列举三个异常类型，下面通过看源码、看书、代码调试来看下``  exception_triage()`` 函数都做了什么。
 
 
-#### 1.2 调试跟踪CPU异常
+#### 调试跟踪CPU异常
 
 在《深入解析Mac OS & iOS 操作系统》中有讲解xnu异常处理的过程，但不是特别详细，而且书的参考代码与最新代码也有出入，要把内核的异常处理流程弄清楚，需要看书、看源码，当然少不了断点调试。
 
-##### 1.2.1 调试xnu
+##### 调试xnu
 
 
 在MacOS上调试XNU要比在iOS上调试简单，使用到的工具是：LLDB + VMware Fusion + Kernel Debug Kit ，调试环境的搭建只需简单几个步骤即可，可参考 [《MacOS内核调试环境搭建》](http://www.cnblogs.com/elvirangel/p/9096517.html) ，iOS上的调试可以参考lan beer 分享的 [build your own iOS kernel debugger](https://bugs.chromium.org/p/project-zero/issues/detail?id=1417#c16)，链接里有分享的PPT和PoC ，可惜目前的Poc仅支持iOS 11.1.2 
@@ -61,7 +61,7 @@ int main(int argc, const char * argv[]) {
 
 注：我使用的MacOs 版本是10.13.5，对应的XNU是4570.61.1，对应版本的源码没有放出，对比了前几个版本，我需要参考的源码都没有变动，所以参考源码是github上的[xnu-4570.1.46](https://github.com/apple/darwin-xnu/)
 
-##### 1.2.2 跟踪CPU异常
+##### 跟踪CPU异常
 
 ```
 int main(int argc, const char * argv[]) {
@@ -236,14 +236,14 @@ launchd 在初始化的过程中设置了异常端口，并且将 MachExceptionH
 
 通过打断点可以看出一个用户态应用程序非法访问内存导致的CPU异常，将会依次用到 `` EXC_BAD_ACCESS、EXC_CRASH、EXC_CORPSE_NOTIFY ``这三个Mach异常类型。
 
-##### 1.2.3 小结
+##### 小结
 
 (todo 换图片)
 CPU异常 -> Mach异常 -> BSD层的Unix信号 -> 用户态App Handler / 系统生成Crash Log 的流程可以简单粗略地画一个图
 
 ![s](http://m.qpic.cn/psb?/V10JaO4w40EHz4/1OfXzk0RWT*5eExl0A5ilUXtBXPMYkyQBWwJwE5akK4!/b/dC8BAAAAAAAA&bo=VwY4BAAAAAADB08!&rf=viewer_4)
 
-#### 1.3 异常收集
+#### 异常收集
 
 虽然iOS \ macOS 都提供了 ReportCrash用来收集Crash 信息，Debug模式下也提供了 lldb 的debugserver 捕获程序异常，但App 发版上架后出现Crash 不方便开发者收集，比如在iOS上需要用户允许与开发者共享分析数据，开发者才可以从 iTunes Connect 查看到Crash 上报信息，不然则要拿到发生Crash的设备才能查看到Crash信息。
 
@@ -277,4 +277,4 @@ https://nianxi.net/ios/ios-crash-reporter.html
 https://www.jianshu.com/p/80268ee99ddf
 https://www.jianshu.com/p/34b98060965b
 
-#### 1.4 堆栈恢复 Crash Log 格式
+#### 堆栈恢复 Crash Log 格式
