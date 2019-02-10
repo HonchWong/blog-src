@@ -72,9 +72,7 @@ int main(int argc, const char * argv[]) {
 }
 ```
 
-首先使用gcc来把上面这个程序编译成二进制可执行程序，然后运行。在程序等待键盘输入的时候，可以用ps命令查看进程PID。
-
-todo 图片
+首先使用gcc来把上面这个程序编译成二进制可执行程序，然后运行。在程序等待键盘输入的时候，可以用ps命令查看进程PID是352。
 
 在运行程序之前我在`` osfmk/kern/exception.c `` 的 `` exception_triage_thread() `` 函数实现处打了三个断点
 
@@ -241,7 +239,7 @@ launchd 在初始化的过程中设置了异常端口，并且将 MachExceptionH
 (todo 换图片)
 CPU异常 -> Mach异常 -> BSD层的Unix信号 -> 用户态App Handler / 系统生成Crash Log 的流程可以简单粗略地画一个图
 
-![s](http://m.qpic.cn/psb?/V10JaO4w40EHz4/1OfXzk0RWT*5eExl0A5ilUXtBXPMYkyQBWwJwE5akK4!/b/dC8BAAAAAAAA&bo=VwY4BAAAAAADB08!&rf=viewer_4)
+![s](http://b303.photo.store.qq.com/psb?/V10JaO4w40EHz4/1OfXzk0RWT*5eExl0A5ilUXtBXPMYkyQBWwJwE5akK4!/b/dC8BAAAAAAAA&bo=VwY4BAAAAAADB08!&rf=viewer_4)
 
 #### 异常收集
 
